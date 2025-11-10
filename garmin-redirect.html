@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Garmin Auth</title>
+    <script>
+        function handleRedirect() {
+            var url = window.location.href;
+            var params = new URLSearchParams(window.location.search);
+            var code = params.get('code');
+            var error = params.get('error');
+
+            if (code) {
+                // Forward to the app's custom URL scheme
+                window.location.replace('rideweatherpro://garmin-auth?code=' + encodeURIComponent(code));
+            } else if (error) {
+                // Handle errors
+                window.location.replace('rideweatherpro://garmin-auth?error=' + encodeURIComponent(error));
+            } else {
+                // Fallback
+                document.getElementById('status').innerText = "Invalid redirect state.";
+            }
+        }
+        window.onload = handleRedirect;
+    </script>
+</head>
+<body>
+    <p id="status">Authenticating with Garmin, please wait...</p>
+</body>
+</html>
